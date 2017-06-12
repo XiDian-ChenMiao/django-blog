@@ -6,8 +6,8 @@
 </head>
 <body>
     <h1>博客列表</h1><hr />
-    <% for article in articles %>
-        {{ article.title }}
-    <% endfor %>
+    {% for article in articles %}
+        <a href="{% url 'blog:article_page' article.id %}">{{ article.title }}</a>
+    {% endfor %}
 </body>
 </html>
