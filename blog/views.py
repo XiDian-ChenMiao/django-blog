@@ -1,5 +1,6 @@
 from django.shortcuts import render, render_to_response
-from .models import Article
+from .models import *
+from .forms import *
 
 
 def index(request):
@@ -54,3 +55,29 @@ def edit_action(request):
     article.content = content
     article.save()
     return render(request, 'blog/article_edit.html', {'article': article})
+
+
+def publisher_add(request):
+    """
+    增加出版商
+    :param request: 
+    :return: 
+    """
+    if request.method == 'POST':
+        form = PublisherForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return render(request, 'blog/publisher_list.html', {'publishers': Publisher.objects.all()})
+    else:
+        form = PublisherForm()
+        return render(request, 'blog/publisher_add.html', locals())
+
+
+def publisher_list(request):
+    """
+    获取出版商信息
+    :param request: 
+    :return: 
+    """
+    return render(request, 'blog/publisher_list.html', {'publishers': Publisher.objects.all()})
+
