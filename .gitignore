@@ -69,6 +69,6 @@ bin/
 *.classpath
 *.project
 *.settings
-
+*.pyc
 # Virtual Code
 .vscode
