@@ -23,6 +23,17 @@ class PublisherForm(forms.ModelForm):
     """
     name = forms.CharField(label='名称', validators=[validate_name])
 
+    def clean_name(self):
+        """
+        出版商名称的验证函数
+        :return: 
+        """
+        name = self.cleaned_data['name']
+        num_words = len(name.split())
+        if num_words < 2:
+            raise forms.ValidationError('出版商名称长度不足，需要最少两个字符')
+        return name
+
     class Meta:
         model = Publisher
         exclude = ('id', )
