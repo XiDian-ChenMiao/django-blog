@@ -5,9 +5,14 @@
     <title>博客首页</title>
 </head>
 <body>
-    <h1>博客列表</h1><hr />
-    {% for article in articles %}
-        <a href="{% url 'blog:article_page' article.id %}">{{ article.title }}</a>
-    {% endfor %}
+    {% if user.is_authenticated %}
+        <h1>博客列表</h1><hr />
+        {% for article in articles %}
+            <a href="{% url 'blog:article_page' article.id %}">{{ article.title }}</a>
+        {% endfor %}
+        {% else %}
+        <p>请先登录，登录地址为：<a href="{% url 'blog:login' %}">登录</a> </p>
+    {% endif %}
+
 </body>
 </html>

@@ -31,4 +31,10 @@ urlpatterns = [
     url(r'^edit/action/$', views.edit_action, name='edit_action'),
     url(r'^publisher/add/$', views.publisher_add, name='publisher_add'),
     url(r'^publisher/list/$', views.publisher_list, name='publisher_list'),
+    url(r'^meta/$', views.show_request_meta, name='show_request_meta'),
+    url(r'^cookie/$', views.set_cookie, name='set_cookie'),
+    url(r'^login/$', views.login, name='login'),
+    url(r'^auth_login/$', views.auth_login, name='auth_login'),
+    url(r'^auth_logout/$', views.auth_logout, name='auth_logout'),
+    url(r'^register/$', views.register, name='register'),
 ]
