@@ -23,9 +23,12 @@ Including another URLconf
 
 from django.conf.urls import url
 from . import views
+from django.views.generic import TemplateView, RedirectView
 
 urlpatterns = [
-    url(r'^index/$', views.index),
+    url(r'^base_index/$', TemplateView.as_view(template_name='blog/index.html')),  # 通用视图
+    url(r'^index/$', views.index, name='index'),
+    url(r'^redirect/$', RedirectView.as_view(url='http://www.baidu.com')),  # 重定向视图
     url(r'^article/(?P<article_id>[0-9]+)/$', views.article_page, name='article_page'),
     url(r'^edit/(?P<article_id>[0-9]+)/$', views.edit_page, name='edit_page'),
     url(r'^edit/action/$', views.edit_action, name='edit_action'),
@@ -37,4 +40,6 @@ urlpatterns = [
     url(r'^auth_login/$', views.auth_login, name='auth_login'),
     url(r'^auth_logout/$', views.auth_logout, name='auth_logout'),
     url(r'^register/$', views.register, name='register'),
+    url(r'^publishers/$', views.PublisherView.as_view(), name='publishers'),  # 采用Restful处理的请求
+    url(r'^publishers/(?P<pk>[0-9]+)$', view=views.publisher_detail, name='publishers'),  # 采用Restful处理的请求
 ]

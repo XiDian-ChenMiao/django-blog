@@ -1,8 +1,58 @@
-from django.shortcuts import render, HttpResponse
 from django.contrib import auth
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, HttpResponse
 from .forms import *
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import PublisherSerializer
+from .models import Publisher
+
+
+class PublisherView(APIView):
+    """
+    构建出版商的Restful显示页面
+    """
+    def get(self, request, format=None):
+        publishers = Publisher.objects.all()
+        serializer = PublisherSerializer(publishers, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, foramt=None):
+        serializer = PublisherSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def publisher_detail(request, pk):
+    """
+    通过装饰器显示出版商的具体信息
+    :param request: 
+    :param pk: 
+    :return: 
+    """
+    try:
+        publisher = Publisher.objects.get(pk=pk)
+    except Publisher.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        serializer = PublisherSerializer(publisher)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = PublisherSerializer(publisher, request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        publisher.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 def index(request):

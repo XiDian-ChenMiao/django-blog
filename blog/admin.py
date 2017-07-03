@@ -37,10 +37,39 @@ class AuthorAdmin(admin.ModelAdmin):
     """
     list_display = ['name']  # 控制显示的字段
     from .forms import AuthorForm
-    form = AuthorForm
+    form = AuthorForm  # 指定后台管理页面绑定的表单
+
+    def print_author_action(self, request, queryset):
+        """
+        对于作者的打印动作
+        :param modeladmin: 
+        :param request: 
+        :param queryset: 
+        :return: 
+        """
+        for item in queryset:
+            print(item)
+        self.message_user(request, "%d位作者信息被打印。" % len(queryset))
+
+    print_author_action.short_description = '打印对象'
+    actions = [print_author_action]  # 指定后台对于对象的动作
+
+
+def global_show_action(modeladmin, request, queryset):
+    """
+    全局打印函数
+    :param modeladmin: 
+    :param request: 
+    :param queryset: 
+    :return: 
+    """
+    for item in queryset:
+        print(item)
+    modeladmin.message_user(request, "%d objects were showed." % len(queryset))
 
 
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Publisher, PublisherAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(Author, AuthorAdmin)
+admin.site.add_action(global_show_action, '全局打印')
