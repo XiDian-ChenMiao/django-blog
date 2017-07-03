@@ -37,3 +37,15 @@ class PublisherForm(forms.ModelForm):
     class Meta:
         model = Publisher
         exclude = ('id', )
+
+
+class AuthorForm(forms.ModelForm):
+    """
+    指定后台作者管理界面显示的表单风格
+    """
+    class Meta:
+        model = Author
+        fields = ['name']
+        widgets = {
+            'name': forms.Textarea(attrs={'cols': '20', 'rows': '1'})
+        }

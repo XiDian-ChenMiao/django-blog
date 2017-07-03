@@ -36,6 +36,8 @@ class AuthorAdmin(admin.ModelAdmin):
     作者后台控制类
     """
     list_display = ['name']  # 控制显示的字段
+    from .forms import AuthorForm
+    form = AuthorForm
 
 
 admin.site.register(Article, ArticleAdmin)
