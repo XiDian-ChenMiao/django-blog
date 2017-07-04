@@ -64,6 +64,8 @@ def index(request):
     """
     articles = Article.objects.all()
     signals.sigal_a.send(sender=None, name='DAQINZHIDI')  # 测试信号机制
+    from_source = request.session.get('from_source', 'unkown')
+    print('request comes from %s' % from_source)
     return render(request, 'blog/index.html', {'articles': articles})
 
 

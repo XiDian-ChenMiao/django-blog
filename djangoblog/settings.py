@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'blog',
 ]
 
-MIDDLEWARE = [
+# 将MIDDLEWARE重命名为MIDDLEWARE_CLASSES之后可以重新启动项目
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'blog.middleware.CheckSourceMiddleware',  # 添加自定义中间件判断请求来源中间件
+    'blog.middleware.ForbidSomeIpMiddleware',  # 添加禁止部分IP访问中间件
 ]
 
 ROOT_URLCONF = 'djangoblog.urls'
