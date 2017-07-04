@@ -42,4 +42,5 @@ urlpatterns = [
     url(r'^register/$', views.register, name='register'),
     url(r'^publishers/$', views.PublisherView.as_view(), name='publishers'),  # 采用Restful处理的请求
     url(r'^publishers/(?P<pk>[0-9]+)$', view=views.publisher_detail, name='publishers'),  # 采用Restful处理的请求
+    url(r'^disconnect$', view=views.disconnect_signal, name='disconnect_signal'),  # 信号机制测试
 ]

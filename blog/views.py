@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import PublisherSerializer
 from .models import Publisher
+from . import signals
 
 
 class PublisherView(APIView):
@@ -62,6 +63,7 @@ def index(request):
     :return: 
     """
     articles = Article.objects.all()
+    signals.sigal_a.send(sender=None, name='DAQINZHIDI')  # 测试信号机制
     return render(request, 'blog/index.html', {'articles': articles})
 
 
@@ -216,3 +218,13 @@ def register(request):
     else:
         form = UserCreationForm()
         return render(request, 'blog/register.html', {'form': form})
+
+
+def disconnect_signal(request):
+    """
+    注销信号
+    :param request: 
+    :return: 
+    """
+    signals.sigal_a.disconnect(signals.signal_callback)
+    return HttpResponse('注销信号调用')
